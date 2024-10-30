@@ -1,5 +1,6 @@
 from models.Rational import Rational
 from models.Config import Config
+from models.Exceptions import MatrixIsNotSquare
 
 
 class Matrix:
@@ -20,3 +21,42 @@ class Matrix:
             # s += "\t\t".join([str(elem) for elem in row]) + "\n"
 
         return s
+
+    def __len__(self) -> int:
+        return len(self.values)
+
+    def size(self) -> int:
+        return len(self.values)
+
+    def is_square(self) -> bool:
+        n = self.size()
+        for i in range(n):
+            if len(self.values[i]) != n:
+                return False
+        return True
+
+    def priority_vector(self) -> list:
+        if not self.is_square():
+            raise MatrixIsNotSquare
+
+        arr = []
+        n = self.size()
+        for i in range(n):
+            p = 1
+            for j in range(n):
+                p *= float(self.values[i][j])
+            arr += [p**(1/n)]
+
+        s = sum(arr)
+        return [e/s for e in arr]
+
+    def calc_lambda(self, vector: list = None) -> float:
+        if vector is None:
+            vector = self.priority_vector()
+
+        lambd = 0
+        # n = self.size()
+        # for i,x in enumerate(vector):
+        #     s = sum([self.values[i] for j in range(n)])
+
+        return lambd

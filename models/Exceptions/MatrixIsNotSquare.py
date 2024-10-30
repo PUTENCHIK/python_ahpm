@@ -1,0 +1,2 @@
+class MatrixIsNotSquare(Exception):
+    pass

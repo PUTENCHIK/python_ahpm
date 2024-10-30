@@ -1,21 +1,31 @@
-from models.Config import Config
-from models.FileReader import FileReader
-from models.Rational import Rational
-from models.Matrix import Matrix
+from models import (
+    Config,
+    FileReader,
+    Matrix,
+    Rational
+)
 
 
 if __name__ == "__main__":
-    options = FileReader.read_rows(Config.options_file_default)
+    options = FileReader.read_rows("files/opt_ex.txt")
 
-    criteria = FileReader.read_rows(Config.criteria_file_default)
+    criteria = FileReader.read_rows("files/crit_ex.txt")
 
-    matrix_2 = FileReader.read_matrices(Config.matrix_2_default)
+    matrix_2 = FileReader.read_matrices("files/m2_ex.txt")
 
-    matrix_3 = FileReader.read_matrices(Config.matrix_3_default, len(options), len(criteria))
+    matrix_3 = FileReader.read_matrices("files/m3_ex.txt", len(options), len(criteria))
 
-    print(options)
-    print(criteria)
-    print(matrix_2)
+    # print(options)
+    # print(criteria)
+    #
+    # print(matrix_2)
+    #
+    # for m in matrix_3:
+    #     print(m)
+
+    print(matrix_2.priority_vector())
 
     for m in matrix_3:
         print(m)
+        print(m.priority_vector())
+        print()
