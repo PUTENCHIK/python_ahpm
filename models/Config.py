@@ -4,4 +4,4 @@ class Config:
     options_file_default = "files/options.txt"
     criteria_file_default = "files/criteria.txt"
     matrix_2_default = "files/matrix_2.txt"
-    matrix_3_default = "files/matrix_3.txt"
+    matrices_3_default = "files/matrices_3.txt"
