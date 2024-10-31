@@ -1,1 +1,2 @@
 from .MatrixIsNotSquare import MatrixIsNotSquare
+from .MatrixIsNotSymmetrical import MatrixIsNotSymmetrical

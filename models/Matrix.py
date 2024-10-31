@@ -38,6 +38,18 @@ class Matrix:
             if len(self.values[i]) != n:
                 return False
         return True
+    
+    def is_symmetrical(self) -> bool:
+        if not self.is_square():
+            raise MatrixIsNotSquare
+        
+        n = self.size()
+        for i in range(n):
+            for j in range(i, n):
+                if not self.values[i][j].is_reverse(self.values[j][i]):
+                    return False
+            
+        return True
 
     def priority_vector(self) -> list:
         if not self.is_square():

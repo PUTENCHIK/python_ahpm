@@ -41,6 +41,9 @@ class Rational:
 
             self.num //= a
             self.den //= a
+    
+    def is_reverse(self, other: Self) -> bool:
+        return self.num == other.den and self.den == other.num
 
     def __int__(self):
         return self.num // self.den
@@ -49,7 +52,7 @@ class Rational:
         return self.num / self.den
 
     def __str__(self):
-        return f"{self.num}/{self.den}"
+        return str(self.num) if self.den == 1 else f"{self.num}/{self.den}"
 
     def __add__(self, other: int | Self) -> Self:
         if isinstance(other, int):

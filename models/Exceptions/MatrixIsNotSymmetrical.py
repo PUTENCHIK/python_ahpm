@@ -1,0 +1,2 @@
+class MatrixIsNotSymmetrical(Exception):
+    pass
