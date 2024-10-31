@@ -1,11 +1,11 @@
-import os.path
+from pathlib import Path
 from models.Matrix import Matrix
 
 
 class FileReader:
     @staticmethod
     def read_rows(path: str) -> list:
-        if not os.path.isfile(path):
+        if not Path(path).is_file():
             raise FileNotFoundError
 
         arr = []
@@ -18,7 +18,7 @@ class FileReader:
 
     @staticmethod
     def read_matrices(path: str, n: int = 0, expected_matrices: int = 1) -> Matrix | list[Matrix]:
-        if not os.path.isfile(path):
+        if not Path(path).is_file():
             raise FileNotFoundError
 
         with open(path, encoding="UTF-8") as file:

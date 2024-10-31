@@ -1,7 +1,12 @@
 class Config:
     input_from_file = True
-
-    options_file_default = "files/options.txt"
-    criteria_file_default = "files/criteria.txt"
-    matrix_2_default = "files/matrix_2.txt"
-    matrices_3_default = "files/matrices_3.txt"
+    
+    file_names = {
+        "options": "options.txt",
+        "criteria": "criteria.txt",
+        "m2": "m2.txt",
+        "m3": "m3.txt",
+    }
+    
+    files_folder = "files"
+    default_folder = "default"
