@@ -29,6 +29,9 @@ class Matrix:
     def __mul__(self, other: list[float]) -> list[list[float]]:
         return [[float(elem)*other[j] for j, elem in enumerate(row)] for row in self.values.copy()]
 
+    def to_float(self) -> list[list[float]]:
+        return [[round(float(self.values[i][j]), 3) for j in range(self.size())] for i in range(self.size())]
+
     def size(self) -> int:
         return len(self.values)
 

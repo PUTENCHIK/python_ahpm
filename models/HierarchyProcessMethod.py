@@ -1,6 +1,8 @@
+import pandas as pd
 from pathlib import Path
+from pprint import pprint
+
 from models import Config
-from models import Matrix
 from models import FileReader
 from models.Score import Score
 from models.Exceptions import MatrixIsNotSymmetrical
@@ -92,3 +94,29 @@ class HierarchyProcessMethod:
             obj[option] = round(obj[option], 3)
         
         return obj
+
+    def print_scores(self):
+        scores = self.calc_scores()
+
+        matrix_2 = self.m2.to_float()
+        for i in range(len(matrix_2)):
+            matrix_2[i] += [scores[self.__class__.m2_name]['vector'][i]]
+
+        print(pd.DataFrame(matrix_2, index=self.criteria, columns=self.criteria + ["Weights"]).to_string())
+        pprint(scores[self.__class__.m2_name])
+        print()
+
+        for i, crit in enumerate(self.criteria):
+            print(f"{crit}:")
+
+            matrix = self.m3[i].to_float()
+            for j in range(len(matrix)):
+                matrix[j] += [scores[crit]['vector'][j]]
+
+            indexes = [chr(65 + c) for c in range(len(matrix))]
+            print(pd.DataFrame(matrix, index=indexes, columns=indexes + ["Weights"]).to_string())
+            pprint(scores[crit])
+            print()
+
+        print("Global:")
+        pprint(self.global_priority())
