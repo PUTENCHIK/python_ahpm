@@ -2,8 +2,7 @@ import pandas as pd
 from pathlib import Path
 from pprint import pprint
 
-from models import Config
-from models import FileReader
+from models import Config, FileReader, Matrix
 from models.Score import Score
 from models.Exceptions import MatrixIsNotSymmetrical
 
@@ -94,16 +93,37 @@ class HierarchyProcessMethod:
             obj[option] = round(obj[option], 3)
         
         return obj
+    
+    def check_matrix(self, matrix: Matrix, title: str = None, print_title: bool = False):
+        if print_title:
+            print(f"{title}:")
+            
+        for i in range(matrix.size()-2):
+            for j in range(i+1, matrix.size()-1):
+                for k in range(j+1, matrix.size()):
+                    a_ij, a_jk, a_ik = matrix.values[i][j], matrix.values[j][k], matrix.values[i][k]
+                    if a_ij * a_jk != a_ik:
+                        print(f"({i+1},{j+1},{k+1}) | {a_ij} * {a_jk} = {a_ij*a_jk} != {a_ik}")
+        print()
+    
+    def check_matrices(self):
+        # scores = self.calc_scores()
+        self.check_matrix(self.m2, "Матрица критериев")
+        for crit, matrix in zip(self.criteria, self.m3):
+            self.check_matrix(matrix, crit)
 
-    def print_scores(self):
+    def print_scores(self, cutted: bool = True, check_matrices = False):
         scores = self.calc_scores()
 
         matrix_2 = self.m2.to_float()
         for i in range(len(matrix_2)):
             matrix_2[i] += [scores[self.__class__.m2_name]['vector'][i]]
-
-        print(pd.DataFrame(matrix_2, index=self.criteria, columns=self.criteria + ["Weights"]).to_string())
+            
+        crits = [crit[:6] for crit in self.criteria] if cutted else self.criteria
+        print(pd.DataFrame(matrix_2, index=crits, columns=crits + ["Weights"]).to_string())
         pprint(scores[self.__class__.m2_name])
+        if check_matrices:
+            self.check_matrix(self.m2)
         print()
 
         for i, crit in enumerate(self.criteria):
@@ -116,6 +136,8 @@ class HierarchyProcessMethod:
             indexes = [chr(65 + c) for c in range(len(matrix))]
             print(pd.DataFrame(matrix, index=indexes, columns=indexes + ["Weights"]).to_string())
             pprint(scores[crit])
+            if check_matrices:
+                self.check_matrix(self.m3[i])
             print()
 
         print("Global:")
